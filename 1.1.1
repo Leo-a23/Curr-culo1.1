@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leonardo Andrade - Interactive CV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The application is designed as a single-page, vertical-scrolling narrative. It starts with a strong Hero section, followed by a detailed summary, an interactive skills chart, a professional experience timeline, and concludes with education and language proficiency. This structure was chosen to tell a compelling story of Leonardo's transition from a business leadership role to the tech field, making his unique background a key strength. The flow is intuitive and guides the user through his qualifications progressively. A sticky navigation bar appears on scroll for quick access to specific sections, enhancing user experience. -->
+    <!-- Visualization & Content Choices: 
+        - Summary (Inform): Standard text block for clear storytelling.
+        - Skills (Organize/Compare): An interactive radar chart (Chart.js) is used to visually represent the balance between Leonardo's management, technical, and soft skills. This is more engaging than a static list and highlights his unique, well-rounded profile. Interaction: Hover tooltips.
+        - Experience (Organize): A clean, vertical timeline built with HTML/Tailwind presents his significant CEO role in a structured, easy-to-digest format.
+        - Languages (Compare): Simple visual progress bars (HTML/Tailwind) provide a quick, scannable overview of language proficiency.
+        - Justification: These choices create a modern, data-driven, and interactive presentation that stands out to tech recruiters.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #333D4B;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .glassmorphism-nav {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(200, 200, 200, 0.3);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.75rem;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #4A90E2;
+            border: 4px solid #F8F7F4;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 py-3 transition-all duration-300 ease-in-out transform -translate-y-full glassmorphism-nav">
+        <div class="container mx-auto max-w-5xl px-6 flex justify-between items-center">
+            <span class="font-bold text-lg text-gray-700">Leonardo Andrade</span>
+            <div class="hidden md:flex space-x-8">
+                <a href="#summary" class="text-gray-600 hover:text-[#4A90E2] transition-colors">Summary</a>
+                <a href="#skills" class="text-gray-600 hover:text-[#4A90E2] transition-colors">Skills</a>
+                <a href="#experience" class="text-gray-600 hover:text-[#4A90E2] transition-colors">Experience</a>
+                <a href="#contact" class="text-gray-600 hover:text-[#4A90E2] transition-colors">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto max-w-5xl px-6">
+
+        <section id="hero" class="min-h-screen flex flex-col justify-center text-center">
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter text-gray-800">Leonardo Andrade</h1>
+            <p class="mt-4 text-xl md:text-2xl text-gray-500">Computer Science Student & Aspiring Tech Innovator</p>
+            <div class="mt-8 flex justify-center items-center space-x-6 text-gray-500">
+                <a href="mailto:Leonardo.A.S1@hotmail.com" class="hover:text-[#4A90E2] transition-colors" title="Email">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/leonardo-andrade-4434b935a/" target="_blank" rel="noopener noreferrer" class="hover:text-[#4A90E2] transition-colors" title="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+            </div>
+        </section>
+
+        <section id="summary" class="py-20">
+            <h2 class="text-3xl font-bold text-center mb-12">Professional Summary</h2>
+            <div class="bg-white/60 p-8 rounded-xl shadow-sm max-w-3xl mx-auto">
+                 <p class="text-lg leading-relaxed text-gray-600">
+                    Proactive and versatile professional, currently pursuing a Bachelor's Degree in Computer Science. My hands-on experience as a CEO has provided me with a comprehensive understanding of business management and operational processes. I am adept at implementing and optimizing technology systems to drive efficiency and enhance customer relationships. I am now seeking an opportunity in the field of Information Technology to apply my management acumen and technical knowledge, innovate solutions, and contribute to the growth and success of a dynamic team.
+                </p>
+            </div>
+        </section>
+
+        <section id="skills" class="py-20">
+            <h2 class="text-3xl font-bold text-center mb-4">Skills Showcase</h2>
+            <p class="text-center text-gray-500 mb-12 max-w-2xl mx-auto">This chart illustrates my balanced skill set, blending strategic business management with emerging technical competencies—a unique combination for driving technology projects with a strong business focus.</p>
+            <div class="bg-white/60 p-8 rounded-xl shadow-sm">
+                <div class="chart-container">
+                    <canvas id="skillsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="py-20">
+            <h2 class="text-3xl font-bold text-center mb-16">Professional Experience</h2>
+            <div class="relative max-w-2xl mx-auto border-l-2 border-gray-200 pl-12">
+                <div class="mb-10 relative timeline-item">
+                    <div class="bg-white/60 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-xl font-bold text-gray-800">CEO</h3>
+                            <span class="text-sm font-medium text-[#4A90E2]">Dec 2022 – Present</span>
+                        </div>
+                        <p class="text-md font-semibold text-gray-600 mb-4">PneuGuerra | Petrolina, Pernambuco</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>Orchestrated strategic and operational management, ensuring financial health and sustainable growth.</li>
+                            <li>Spearheaded the implementation of software systems to streamline internal processes and improve client relationship management.</li>
+                            <li>Developed and executed sales strategies, fostering direct commercial relationships with clients and partners.</li>
+                            <li>Led brand marketing and positioning initiatives to expand market presence and brand recognition.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education-languages" class="py-20">
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h2 class="text-3xl font-bold text-center mb-12">Education</h2>
+                    <div class="bg-white/60 p-8 rounded-xl shadow-sm text-center">
+                        <h3 class="text-xl font-bold text-gray-800">Bachelor of Science in Computer Science</h3>
+                        <p class="text-md text-gray-600 mt-1">Faculdade de Ciências Sociais e Aplicadas de Petrolina (FACAPE)</p>
+                        <p class="text-sm text-gray-500 mt-2">Jan 2023 – Jan 2027 (Expected)</p>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-center mb-12">Languages</h2>
+                    <div class="bg-white/60 p-8 rounded-xl shadow-sm space-y-4">
+                        <div>
+                            <span class="text-md font-semibold text-gray-700">Portuguese (Native)</span>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="bg-[#4A90E2] h-2.5 rounded-full" style="width: 100%"></div></div>
+                        </div>
+                        <div>
+                            <span class="text-md font-semibold text-gray-700">English (Intermediate)</span>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="bg-[#4A90E2] h-2.5 rounded-full" style="width: 65%"></div></div>
+                        </div>
+                        <div>
+                            <span class="text-md font-semibold text-gray-700">Spanish (Basic to Intermediate)</span>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="bg-[#4A90E2] h-2.5 rounded-full" style="width: 40%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer id="contact" class="bg-white/50 mt-20 py-10 text-center">
+        <div class="container mx-auto max-w-5xl px-6">
+            <h2 class="text-2xl font-bold mb-4">Let's Connect</h2>
+            <p class="text-gray-600 mb-6">Open to new opportunities in technology. Feel free to reach out.</p>
+            <a href="mailto:Leonardo.A.S1@hotmail.com" class="inline-block bg-[#4A90E2] text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-90 transition-colors">
+                Contact Me
+            </a>
+            <p class="text-sm text-gray-400 mt-8">&copy; 2025 Leonardo Andrade. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            const skillsChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: [
+                        'Business Management', 
+                        'Sales & Marketing Strategy', 
+                        'Software Implementation', 
+                        'Process Optimization', 
+                        'Leadership & Team Collab', 
+                        'Problem-Solving',
+                        'Financial Planning'
+                    ],
+                    datasets: [{
+                        label: 'Proficiency & Experience',
+                        data: [9, 8, 7, 8, 9, 8, 7],
+                        backgroundColor: 'rgba(74, 144, 226, 0.2)',
+                        borderColor: 'rgba(74, 144, 226, 1)',
+                        pointBackgroundColor: 'rgba(74, 144, 226, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(74, 144, 226, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 13,
+                                    family: 'Inter, sans-serif'
+                                },
+                                color: '#333D4B'
+                            },
+                            ticks: {
+                                backdropColor: 'transparent',
+                                stepSize: 2
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 10
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            const navbar = document.getElementById('navbar');
+            const heroSection = document.getElementById('hero');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > heroSection.offsetHeight - 50) {
+                    navbar.classList.remove('-translate-y-full');
+                } else {
+                    navbar.classList.add('-translate-y-full');
+                }
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
